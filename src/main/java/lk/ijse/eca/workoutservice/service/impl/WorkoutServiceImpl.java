@@ -257,10 +257,17 @@ public class WorkoutServiceImpl implements WorkoutService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<MemberWorkoutResponseDTO> getAllMemberWorkouts(Long memberId) {
+        return memberWorkoutRepository.findByMemberId(memberId).stream()
+                .map(WorkoutMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     private void validateUserRole(Long userId, String expectedRole) {
         try {
             ApiResponse<UserResponseDTO> response = restClient.get()
-                    .uri("/api/v1/members/{userId}", userId)
+                    .uri("/api/v1/users/{userId}", userId)
                     .retrieve()
                     .body(new ParameterizedTypeReference<ApiResponse<UserResponseDTO>>() {});
 

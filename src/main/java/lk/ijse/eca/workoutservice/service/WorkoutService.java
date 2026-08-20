@@ -24,4 +24,5 @@ public interface WorkoutService {
     MemberWorkoutResponseDTO completeWorkout(String memberWorkoutId, String notes);
     
     List<MemberWorkoutResponseDTO> getMemberWorkoutHistory(Long memberId);
+    List<MemberWorkoutResponseDTO> getAllMemberWorkouts(Long memberId);
 }

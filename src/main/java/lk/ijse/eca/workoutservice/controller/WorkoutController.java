@@ -104,9 +104,17 @@ public class WorkoutController {
 
     @GetMapping("/history/{memberId}")
     public ResponseEntity<ApiResponse<List<MemberWorkoutResponseDTO>>> getMemberWorkoutHistory(@PathVariable Long memberId) {
-        List<MemberWorkoutResponseDTO> history = workoutService.getMemberWorkoutHistory(memberId);
-        return ResponseEntity.ok(
-                ApiResponse.success("Member workout history retrieved successfully", history)
+        return new ResponseEntity<>(
+                ApiResponse.success("Workout history retrieved successfully", workoutService.getMemberWorkoutHistory(memberId)),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/member/{memberId}/all")
+    public ResponseEntity<ApiResponse<List<MemberWorkoutResponseDTO>>> getAllMemberWorkouts(@PathVariable Long memberId) {
+        return new ResponseEntity<>(
+                ApiResponse.success("All member workouts retrieved successfully", workoutService.getAllMemberWorkouts(memberId)),
+                HttpStatus.OK
         );
     }
 }
