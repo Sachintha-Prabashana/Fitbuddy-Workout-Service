@@ -212,19 +212,18 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         exercise.setStatus(dto.getStatus());
         if (dto.getActualSets() != null) {
-            List<SetProgress> updatedSets = dto.getActualSets().stream()
-                    .map(setDto -> SetProgress.builder()
-                            .setNumber(setDto.getRepsCompleted()) // wait: setNumber should be set mapped from index
-                            .repsCompleted(setDto.getRepsCompleted())
-                            .weightLifted(setDto.getWeightLifted())
-                            .completed(setDto.getCompleted())
-                            .build())
+            List<SetProgressUpdateDTO> actualSets = dto.getActualSets();
+            List<SetProgress> updatedSets = java.util.stream.IntStream.range(0, actualSets.size())
+                    .mapToObj(i -> {
+                        SetProgressUpdateDTO setDto = actualSets.get(i);
+                        return SetProgress.builder()
+                                .setNumber(i + 1)
+                                .repsCompleted(setDto.getRepsCompleted())
+                                .weightLifted(setDto.getWeightLifted())
+                                .completed(setDto.getCompleted())
+                                .build();
+                    })
                     .collect(Collectors.toList());
-            
-            // Fix set numbers
-            for (int i = 0; i < updatedSets.size(); i++) {
-                updatedSets.get(i).setSetNumber(i + 1);
-            }
             exercise.setActualSets(updatedSets);
         }
 
